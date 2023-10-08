@@ -9,7 +9,7 @@ const store = useSidebarStore();
 <template>
   <div class="h-screen overflow-hidden">
     <div class="min-h-screen flex relative lg:static surface-ground">
-      <Sidebar />
+      <Sidebar v-memo />
       <div class="min-h-screen flex flex-column relative flex-auto">
         <div
           class="flex justify-content-between align-items-center px-5 surface-0 border-bottom-1 surface-border relative lg:static h-4rem"
@@ -28,7 +28,9 @@ const store = useSidebarStore();
         <div class="p-2 flex flex-column flex-auto z-0">
           <div
             class="border-2 border-dashed surface-border border-round surface-section flex-auto"
-          ></div>
+          >
+            <slot />
+          </div>
         </div>
       </div>
     </div>

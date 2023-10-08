@@ -22,6 +22,8 @@ services:
       CORS_ENABLED: true
       CORS_ORIGIN: true
       ACCESS_TOKEN_TTL: 1d
+      REFRESH_TOKEN_COOKIE_NAME: sudb_refresh_token
+    restart: always
 
   # swag:
   #   image: ghcr.io/linuxserver/swag:version-1.14.0

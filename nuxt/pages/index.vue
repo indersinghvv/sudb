@@ -1,5 +1,4 @@
 <template>
-  <Header />
   <div class="flex justify-content-center">
     <!-- <Dropdown
       v-model="selectedCity"
@@ -14,7 +13,7 @@
 <script setup>
 import { ref } from "vue";
 import Dropdown from "primevue/dropdown";
-import Header from "~/components/Header.vue";
+
 definePageMeta({
   middleware: ["auth"],
 });
