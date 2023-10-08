@@ -34,8 +34,8 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/India
-      - URL=*50.16.95.162*
-      - SUBDOMAINS=www,api
+      - URL=50.16.95.162
+      - SUBDOMAINS=www,api #wildcard
       - VALIDATION=http
     networks:
       - directus
