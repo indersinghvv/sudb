@@ -25,26 +25,27 @@ services:
       REFRESH_TOKEN_COOKIE_NAME: 'sudb_refresh_token'
     restart: always
 
-  # swag:
-  #   image: ghcr.io/linuxserver/swag:version-1.14.0
-  #   container_name: swag
-  #   cap_add:
-  #     - NET_ADMIN
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=Asia/Bangkok
-  #     - URL=*yourdomain.com*
-  #     - SUBDOMAINS=www,api
-  #     - VALIDATION=http
-  #   networks:
-  #     - directus
-  #   volumes:
-  #     - ./config:/config
-  #   ports:
-  #     - 443:443
-  #     - 80:80
-  #   restart: always
+  swag:
+    image: ghcr.io/linuxserver/swag:version-1.14.0
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/India
+      - URL=*50.16.95.162*
+      - SUBDOMAINS=www,api
+      - VALIDATION=http
+    networks:
+      - directus
+    volumes:
+      - ./config:/config
+    ports:
+      - 443:443
+      - 80:80
+      - 8055:8055
+    restart: always
 
   node:
     image: node:18-alpine
@@ -60,7 +61,7 @@ services:
     env_file:
       - ./nuxt/.env
     ports:
-      - 3000:3000
+      - 80:3000
     # for production
     # command: [sh, -c, "yarn add nuxt && yarn build && set NODE_ENV=production && yarn start"]
     command: [ sh, -c, "npm i nuxt && npm run build && npm run start" ]
