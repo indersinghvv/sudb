@@ -7,7 +7,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
@@ -22,8 +23,5 @@
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
     "primevue": "^3.35.0"
-  },
-  "overrides": {
-    "vue": "latest"
   }
 }
