@@ -44,7 +44,6 @@ services:
     ports:
       - 443:443
       - 80:80
-      - 8055:8055
     restart: always
 
   node:
