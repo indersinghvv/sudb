@@ -11,7 +11,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ["primevue"],
   },
-  ssr: true,
+  ssr: false,
   modules: ["nuxt-directus", "@pinia/nuxt"],
   runtimeConfig: {
     directus: {

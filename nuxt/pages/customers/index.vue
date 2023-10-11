@@ -7,8 +7,11 @@
       filterDisplay="row"
       :globalFilterFields="['name', 'status']"
       ref="dtRef"
+      scrollable
+      scroll-height="100vh"
       resizableColumns
       columnResizeMode="expand"
+      v-memo="[customers, filters]"
     >
       <template #header>
         <div class="flex justify-content-between">
@@ -66,6 +69,82 @@
             v-model="filterModel.value"
             @change="filterCallback()"
             :options="uniqueData?.name"
+            placeholder="Any"
+            class="p-column-filter"
+            style="min-width: 14rem"
+            :maxSelectedLabels="1"
+          >
+            <template #option="slotProps">
+              <div class="flex align-items-center gap-2">
+                <span>{{ slotProps.option }}</span>
+              </div>
+            </template>
+          </MultiSelect>
+        </template>
+      </Column>
+      <Column field="status" header="Status" sortable>
+        <template #filter="{ filterModel, filterCallback }">
+          <MultiSelect
+            v-model="filterModel.value"
+            @change="filterCallback()"
+            :options="uniqueData?.status"
+            placeholder="Any"
+            class="p-column-filter"
+            style="min-width: 14rem"
+            :maxSelectedLabels="1"
+          >
+            <template #option="slotProps">
+              <div class="flex align-items-center gap-2">
+                <span>{{ slotProps.option }}</span>
+              </div>
+            </template>
+          </MultiSelect>
+        </template>
+      </Column>
+      <Column field="status" header="Status" sortable>
+        <template #filter="{ filterModel, filterCallback }">
+          <MultiSelect
+            v-model="filterModel.value"
+            @change="filterCallback()"
+            :options="uniqueData?.status"
+            placeholder="Any"
+            class="p-column-filter"
+            style="min-width: 14rem"
+            :maxSelectedLabels="1"
+          >
+            <template #option="slotProps">
+              <div class="flex align-items-center gap-2">
+                <span>{{ slotProps.option }}</span>
+              </div>
+            </template>
+          </MultiSelect>
+        </template>
+      </Column>
+      <Column field="status" header="Status" sortable>
+        <template #filter="{ filterModel, filterCallback }">
+          <MultiSelect
+            v-model="filterModel.value"
+            @change="filterCallback()"
+            :options="uniqueData?.status"
+            placeholder="Any"
+            class="p-column-filter"
+            style="min-width: 14rem"
+            :maxSelectedLabels="1"
+          >
+            <template #option="slotProps">
+              <div class="flex align-items-center gap-2">
+                <span>{{ slotProps.option }}</span>
+              </div>
+            </template>
+          </MultiSelect>
+        </template>
+      </Column>
+      <Column field="status" header="Status" sortable>
+        <template #filter="{ filterModel, filterCallback }">
+          <MultiSelect
+            v-model="filterModel.value"
+            @change="filterCallback()"
+            :options="uniqueData?.status"
             placeholder="Any"
             class="p-column-filter"
             style="min-width: 14rem"
