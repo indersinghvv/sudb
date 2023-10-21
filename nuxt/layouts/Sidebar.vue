@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="relative">
     <!-- Overlay for blur effect -->
     <div
       v-if="store.isOpen"

@@ -7,6 +7,17 @@ export default defineNuxtConfig({
     "primeicons/primeicons.css",
     "assets/css/main.css",
   ],
+  app: {
+    head: {
+      meta: [
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+      ],
+      // script: [
+      //   // <script src="https://myawesome-lib.js"></script>
+      //   { src: "https://cdn.tailwindcss.com/3.3.3" },
+      // ],
+    },
+  },
 
   build: {
     transpile: ["primevue"],

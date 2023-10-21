@@ -1,7 +1,8 @@
 export const useSidebarStore = defineStore("sidebar", () => {
-  const isOpen = ref(true);
+  const isOpen = ref(false);
   const toggleSidebar = () => {
     isOpen.value = !isOpen.value;
+    console.log("clicked toggle");
   };
 
   function handleClickOutside(event) {
