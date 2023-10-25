@@ -4,14 +4,16 @@
       class="h-3rem surface-50 top-0 sticky flex align-items-center justify-content-between z-5 border-bottom-1 surface-border"
     >
       <div
-        class="flex align-items-center justify-content-center cursor-pointer p-2 border-round text-800 text-2xl hover:surface-200 transition-duration-150 transition-colors w-6rem"
+        class="flex align-items-center justify-content-center p-2 border-round text-800 text-2xl hover:surface-200 transition-duration-150"
       >
         <i
-          class="pi pi-align-left md:hidden ml-2"
+          class="pi pi-align-left md:hidden ml-2 cursor-pointer"
           style="font-size: 2rem"
-          @click="isSidebar = !isSidebar"
+          @click.stop="isSidebar = !isSidebar"
         ></i>
-        <span class="font-bold">SUDB</span>
+        <span class="font-bold ml-2 cursor-pointer transition-colors w-6rem"
+          >SUDB</span
+        >
       </div>
       <div class="mr-4">
         <Button
@@ -29,7 +31,7 @@
     </nav>
     <aside
       v-if="isSidebar"
-      class="fixed h-screen w-5rem z-5 surface-50 border-right-1 surface-border select-none overflow-auto flex flex-column align-items-center gap-2"
+      class="fixed h-screen w-5rem z-5 surface-50 border-right-1 surface-border select-none overflow-auto flex flex-column"
     >
       <NuxtLink
         to="/customers"
@@ -37,15 +39,16 @@
         exactActiveClass
       >
         <div
-          class="flex flex-column align-items-center cursor-pointer border-round hover:bg-primary p-1"
+          class="flex flex-column align-items-center cursor-pointer hover:bg-primary p-1"
         >
           <i class="pi pi-user" style="font-size: 2rem"> </i>
           <span class="text-xs pt-1">Customer</span>
         </div>
       </NuxtLink>
+
       <NuxtLink to="/orders" class="no-underline text-gray-800">
         <div
-          class="flex flex-column align-items-center cursor-pointer border-round hover:bg-primary p-1"
+          class="flex flex-column align-items-center cursor-pointer hover:bg-primary p-1"
         >
           <i class="pi pi-user" style="font-size: 2rem"> </i>
           <span class="text-xs pt-1">Orders</span>
@@ -96,8 +99,7 @@ onUnmounted(() => {
 </script>
 <style>
 .router-link-exact-active {
-  background-color: var(--primary-color) !important;
+  background-color: var(--blue-600) !important;
   color: var(--primary-color-text) !important;
-  border-radius: var(--border-radius) !important;
 }
 </style>
