@@ -1,66 +1,60 @@
 <template>
-  <div class="relative h-6" style="height: 2000px">
+  <div class="relative h-96">
     <nav
-      class="h-3rem surface-50 top-0 sticky flex align-items-center justify-content-between z-5 border-bottom-1 surface-border"
+      class="h-12 bg-gray-50 top-0 sticky flex items-center justify-between z-50 border-b surface-border"
     >
       <div
-        class="flex align-items-center justify-content-center p-2 border-round text-800 text-2xl hover:surface-200 transition-duration-150"
+        class="flex items-center justify-center p-2 rounded-full text-gray-800 text-2xl hover:bg-gray-200 transition duration-150"
       >
         <i
-          class="pi pi-align-left md:hidden ml-2 cursor-pointer"
-          style="font-size: 2rem"
+          class="pi pi-align-left md:hidden ml-2 cursor-pointer text-2xl"
           @click.stop="isSidebar = !isSidebar"
         ></i>
-        <span class="font-bold ml-2 cursor-pointer transition-colors w-6rem"
+        <span class="font-bold ml-2 cursor-pointer transition-colors w-24"
           >SUDB</span
         >
       </div>
       <div class="mr-4">
-        <Button
-          type="button"
-          size="small"
+        <SplitButton
+          label="inder"
           icon="pi pi-user"
-          aria-label="Submit"
-          @click="toggle"
-          aria-haspopup="true"
-          aria-controls="overlay_menu"
+          @click="save"
+          :model="items"
         />
-        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
-        <Toast />
       </div>
     </nav>
     <aside
       v-if="isSidebar"
-      class="fixed h-screen w-5rem z-5 surface-50 border-right-1 surface-border select-none overflow-auto flex flex-column"
+      class="fixed h-screen w-20 z-50 bg-gray-50 border-r surface-border select-none overflow-auto flex flex-col"
     >
       <NuxtLink
-        to="/customers"
+        href="/customers"
         class="no-underline text-gray-800 w-full"
-        exactActiveClass
+        exact-active-class
       >
         <div
-          class="flex flex-column align-items-center cursor-pointer hover:bg-primary p-1"
+          class="flex flex-col items-center cursor-pointer hover:bg-primary p-1"
         >
-          <i class="pi pi-user" style="font-size: 2rem"> </i>
+          <i class="pi pi-user text-2xl"></i>
           <span class="text-xs pt-1">Customer</span>
         </div>
       </NuxtLink>
-
-      <NuxtLink to="/orders" class="no-underline text-gray-800">
+      <NuxtLink href="/orders" class="no-underline text-gray-800">
         <div
-          class="flex flex-column align-items-center cursor-pointer hover:bg-primary p-1"
+          class="flex flex-col items-center cursor-pointer hover:bg-primary p-1"
         >
-          <i class="pi pi-user" style="font-size: 2rem"> </i>
+          <i class="pi pi-user text-2xl"></i>
           <span class="text-xs pt-1">Orders</span>
         </div>
       </NuxtLink>
     </aside>
-    <main class="ml-0 md:ml-8 p-2"><slot /></main>
+    <main class="ml-0 md:ml-20 p-2 z-10"><slot /></main>
   </div>
 </template>
 <script setup>
 import Menu from "primevue/menu";
 import Toast from "primevue/toast";
+import SplitButton from "primevue/splitbutton";
 const { logout } = useDirectusAuth();
 
 const menu = ref();
@@ -74,6 +68,13 @@ const items = ref([
     },
   },
 ]);
+const items1 = [
+  {
+    label: "Update",
+    icon: "pi pi-refresh",
+    command: () => {},
+  },
+];
 
 const toggle = (event) => {
   menu.value.toggle(event);
