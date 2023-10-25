@@ -3,7 +3,7 @@
     <div class="bg-white p-4 shadow-md rounded-lg w-full lg:w-6/12">
       <div class="text-center mb-5">
         <div
-          class="text-gray-900 text-3xl font-medium mb-3 bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-blue-500"
+          class="text-gray-900 text-3xl font-medium mb-3 bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-yellow-700"
         >
           Welcome Back
         </div>

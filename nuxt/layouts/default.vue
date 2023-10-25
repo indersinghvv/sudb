@@ -7,7 +7,7 @@
         class="flex items-center justify-center p-2 rounded-full text-gray-800 text-2xl hover:bg-gray-200 transition duration-150"
       >
         <i
-          class="pi pi-align-left md:hidden ml-2 cursor-pointer text-2xl"
+          class="pi pi-align-left ml-2 cursor-pointer text-2xl"
           @click.stop="isSidebar = !isSidebar"
         ></i>
         <span class="font-bold ml-2 cursor-pointer transition-colors w-24"
@@ -18,8 +18,9 @@
         <SplitButton
           label="inder"
           icon="pi pi-user"
-          @click="save"
           :model="items"
+          outlined
+          size="small"
         />
       </div>
     </nav>
@@ -35,7 +36,7 @@
         <div
           class="flex flex-col items-center cursor-pointer hover:bg-primary p-1"
         >
-          <i class="pi pi-user text-2xl"></i>
+          <MdiIcon class="pi pi-user text-2xl" icon="mdiAccount" />
           <span class="text-xs pt-1">Customer</span>
         </div>
       </NuxtLink>
@@ -48,7 +49,12 @@
         </div>
       </NuxtLink>
     </aside>
-    <main class="ml-0 md:ml-20 p-2 z-10"><slot /></main>
+    <main
+      class="ml-0 p-2 z-10"
+      :class="[!isSidebar ? 'ml-0 !important' : 'md:ml-20']"
+    >
+      <slot />
+    </main>
   </div>
 </template>
 <script setup>
@@ -68,17 +74,6 @@ const items = ref([
     },
   },
 ]);
-const items1 = [
-  {
-    label: "Update",
-    icon: "pi pi-refresh",
-    command: () => {},
-  },
-];
-
-const toggle = (event) => {
-  menu.value.toggle(event);
-};
 
 const isSidebar = ref(false);
 const updateInnerWidth = () => {
@@ -100,7 +95,7 @@ onUnmounted(() => {
 </script>
 <style>
 .router-link-exact-active {
-  background-color: var(--blue-600) !important;
+  background-color: var(--primary-color) !important;
   color: var(--primary-color-text) !important;
 }
 </style>
