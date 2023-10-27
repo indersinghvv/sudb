@@ -6,13 +6,20 @@
       <div
         class="flex items-center justify-center p-2 rounded-full text-gray-800 text-2xl hover:bg-gray-200 transition duration-150"
       >
-        <i
-          class="pi pi-align-left ml-2 cursor-pointer text-2xl"
-          @click.stop="isSidebar = !isSidebar"
-        ></i>
-        <span class="font-bold ml-2 cursor-pointer transition-colors w-24"
-          >SUDB</span
-        >
+        <span class="">
+          <i
+            class="pi pi-align-left ml-2 cursor-pointer text-2xl"
+            @click.stop="isSidebar = !isSidebar"
+          ></i>
+        </span>
+        <NuxtLink to="/" class="!bg-gray-50 !text-gray-700">
+          <span
+            class="font-bold ml-2 cursor-pointer transition-colors w-24"
+            @click="$route.path('/')"
+          >
+            SUDB
+          </span>
+        </NuxtLink>
       </div>
       <div class="mr-4">
         <SplitButton
@@ -21,7 +28,11 @@
           :model="items"
           outlined
           size="small"
-        />
+        >
+          <template #menubuttonicon>
+            <MdiChevronDown :size="24" />
+          </template>
+        </SplitButton>
       </div>
     </nav>
     <aside
@@ -36,7 +47,7 @@
         <div
           class="flex flex-col items-center cursor-pointer hover:bg-primary p-1"
         >
-          <MdiIcon class="pi pi-user text-2xl" icon="mdiAccount" />
+          <i class="pi pi-user text-2xl"></i>
           <span class="text-xs pt-1">Customer</span>
         </div>
       </NuxtLink>
@@ -58,12 +69,10 @@
   </div>
 </template>
 <script setup>
-import Menu from "primevue/menu";
-import Toast from "primevue/toast";
 import SplitButton from "primevue/splitbutton";
+import MdiChevronDown from "vue-material-design-icons/ChevronDown.vue";
 const { logout } = useDirectusAuth();
 
-const menu = ref();
 const items = ref([
   {
     label: "Logout",
