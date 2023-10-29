@@ -9,5 +9,13 @@ export default defineNuxtConfig({
     transpile: ["primevue"],
   },
   ssr: false,
-  modules: ["@nuxtjs/tailwindcss", "nuxt-directus", "nuxt-mdi"],
+  router: {
+    options: {
+      hashMode: true,
+    },
+  },
+  modules: ["@nuxtjs/tailwindcss", "nuxt-directus", "nuxt-mdi", "@pinia/nuxt"],
+  pinia: {
+    storesDirs: ["./stores/**"],
+  },
 });
