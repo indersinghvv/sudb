@@ -17,7 +17,7 @@
     </div>
     <TabView>
       <TabPanel header="Customer Details">
-        <CustomerDetails :data="customerDetails" />
+        <CustomerDetails v-if="customerDetails" :data="customerDetails" />
       </TabPanel>
       <TabPanel header="Previous Orders">
         <CustomerPreviousOrders />
