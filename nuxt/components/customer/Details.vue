@@ -6,6 +6,7 @@
         id="name"
         :value="data?.name"
         :pt="{ root: { class: 'w-full' } }"
+        autocomplete="off"
       />
     </div>
     <div class="w-full lg:w-[24%]">
@@ -21,19 +22,25 @@
       />
     </div>
     <div class="w-full lg:w-[24%]">
-      <label for="name" class="text-sm font-semibold">CONTACT FIRST NAME</label>
+      <label for="first_name" class="text-sm font-semibold"
+        >CONTACT FIRST NAME</label
+      >
       <InputText
-        id="name"
+        id="first_name"
         :value="data?.name"
         :pt="{ root: { class: 'w-full' } }"
+        autocomplete="off"
       />
     </div>
     <div class="w-full lg:w-[24%]">
-      <label for="name" class="text-sm font-semibold">CONTACT LAST NAME</label>
+      <label for="last_name" class="text-sm font-semibold"
+        >CONTACT LAST NAME</label
+      >
       <InputText
-        id="name"
+        id="last_name"
         :value="data?.name"
         :pt="{ root: { class: 'w-full' } }"
+        autocomplete="off"
       />
     </div>
   </div>

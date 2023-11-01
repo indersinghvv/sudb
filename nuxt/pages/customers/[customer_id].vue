@@ -15,7 +15,7 @@
       </div>
       <Button label="Add Order" />
     </div>
-    <TabView>
+    <TabView v-model:activeIndex="active">
       <TabPanel header="Customer Details">
         <CustomerDetails v-if="customerDetails" :data="customerDetails" />
       </TabPanel>
@@ -41,15 +41,26 @@ definePageMeta({
   middleware: ["auth"],
   keepalive: true,
 });
+
 const route = useRoute();
-const customer_id = route.params.customer_id;
+
+const active = ref(Number(route.query?.active) || 0);
+watch(active, (newVal) => {
+  navigateTo({
+    query: {
+      active: newVal,
+    },
+  });
+});
+
+// const customer_id = route.params.customer_id;
 const customerStore = useCustomerStore();
 
 const customerDetails = computed(() => customerStore.customerDetails);
 
 onActivated(async () => {
   if (!customerDetails.value) {
-    await customerStore.fetchCustomerById(customer_id);
+    await customerStore.fetchCustomerById(route.params.customer_id);
   }
 });
 </script>

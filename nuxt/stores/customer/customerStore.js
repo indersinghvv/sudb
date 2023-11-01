@@ -4,6 +4,7 @@ export const useCustomerStore = defineStore("customer", () => {
   const customerList = ref([]);
   const companyRatingList = ref([]);
   const customerDetails = ref(null);
+  const addNewCustomerDialog = ref(false);
 
   const fetchCustomers = async () => {
     try {
@@ -71,6 +72,7 @@ export const useCustomerStore = defineStore("customer", () => {
     customerList,
     customerDetails,
     companyRatingList,
+    addNewCustomerDialog,
     fetchCustomers,
     fetchUnique,
     filterCustomerById,
