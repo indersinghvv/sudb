@@ -1,13 +1,14 @@
 <template>
   <div class="card">
     <DataTable
+      v-if="customerList.length"
       v-model:filters="filters"
       v-model:selection="selectedCustomer"
       :value="customerList"
       tableStyle="min-width: 50rem"
       filterDisplay="row"
       selectionMode="single"
-      :globalFilterFields="['name', 'status']"
+      :globalFilterFields="['name']"
       ref="dtRef"
       scrollable
       show-gridlines
@@ -30,6 +31,17 @@
             v-tooltip.bottom="'Clear All Filter'"
             @click="clearFilter()"
           />
+          <div style="text-align: left">
+            <MultiSelect
+              :modelValue="selectedColumns"
+              :options="columns"
+              option-label="header"
+              display="chip"
+              placeholder="Select Columns"
+              :maxSelectedLabels="1"
+              @update:modelValue="onToggle"
+            />
+          </div>
           <span class="p-input-icon-left">
             <i class="pi pi-search" />
             <InputText
@@ -77,7 +89,7 @@
       <template #empty> No customers found. </template>
       <template #loading> Loading customers data. Please wait. </template>
       <Column selectionMode="single" headerStyle="width: 3rem"></Column>
-      <template v-for="col of columns" :key="col.field">
+      <template v-for="col of selectedColumns" :key="col.field">
         <Column
           :field="col.field"
           :header="col.header"
@@ -94,31 +106,30 @@
               >
             </div>
           </template>
-          <template v-if="col.field == 'contact_first_name'" #body="{ data }">
+          <template v-if="col.field == 'contacts'" #body="{ data }">
             <div class="flex align-center gap-2">
-              <span>{{ data.contact_first_name }}</span>
+              <span>{{ data.contacts[0]?.first_name }}</span>
             </div>
           </template>
           <template #filter="{ filterModel, filterCallback }">
             <MultiSelect
               v-if="col.field"
-              :loading="multiSelectLoading"
               v-model="filterModel.value"
               display="chip"
               filter
               @update:model-value="filterCallback"
-              @show="handleShow(col.field)"
+              @show="filterUniqueValues(col.field)"
               :options="uniqueData[col.field]"
-              :optionValue="col.field"
-              :option-label="col.field"
+              optionValue="name"
+              option-label="name"
               placeholder="Any"
               class="p-column-filter"
               style="min-width: 10rem"
-              :maxSelectedLabels="2"
+              :maxSelectedLabels="1"
             >
               <template #option="slotProps">
                 <div class="flex align-items-center gap-2">
-                  <span>{{ slotProps.option[col.field] }}</span>
+                  <span>{{ slotProps.option.name }}</span>
                 </div>
               </template>
             </MultiSelect>
@@ -133,7 +144,6 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
 import DataTable from "primevue/datatable";
 import InputText from "primevue/inputtext";
 import Column from "primevue/column";
@@ -145,10 +155,6 @@ import { useConfirm } from "primevue/useconfirm";
 import { useToast } from "primevue/usetoast";
 
 const customerStore = useCustomerStore();
-
-const customerList = computed(() => {
-  return customerStore.customerList;
-});
 
 const handleAddNewCustomer = () => {
   console.log("handleAddNewCustomer");
@@ -165,47 +171,47 @@ const handleNameClick = (customer) => {
   navigateTo(`customers/${customer.id}`);
 };
 
-onMounted(() => {
-  customerStore.fetchCustomers();
-});
-
+const customerList = ref([]);
+const columns = ref([]);
+const selectedColumns = ref([]);
+let initFilters = {
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+};
 const clearFilter = () => {
   filters.value = initFilters;
 };
 
-const selectedCustomer = ref();
+const filters = ref([]);
+onMounted(async () => {
+  customerList.value = await customerStore.fetchCustomers();
+  columns.value = findcolumns(customerList.value);
+  selectedColumns.value = columns.value;
+  columns.value?.forEach((element) => {
+    initFilters[element.field] = { value: null, matchMode: FilterMatchMode.IN };
+  });
+  filters.value = initFilters;
+  console.log("initFilters", filters.value);
+});
 
-const columns = [
-  { field: "name", header: "Name" },
-  { field: "contact_first_name", header: "contact_first_name" },
-  { field: "contact_last_name", header: "contact_last_name" },
-  { field: "phone_number", header: "phone_number" },
-  { field: "mobile_number", header: "mobile_number" },
-  { field: "contact_email", header: "contact_email" },
-];
-
-const initFilters = {
-  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-
-  name: { value: null, matchMode: FilterMatchMode.IN },
-  contact_first_name: { value: null, matchMode: FilterMatchMode.IN },
-  contact_last_name: { value: null, matchMode: FilterMatchMode.IN },
-  phone_number: { value: null, matchMode: FilterMatchMode.IN },
-  mobile_number: { value: null, matchMode: FilterMatchMode.IN },
-  contact_email: { value: null, matchMode: FilterMatchMode.IN },
+const onToggle = (val) => {
+  console.log("onToggle", val);
+  selectedColumns.value = columns.value.filter((col) => val.includes(col));
+  return selectedColumns.value;
 };
+const findcolumns = (response) => {
+  // Assuming customerList is reactive and an array of objects
+  const firstCustomer = response && response.length > 0 ? response[0] : {};
 
-const filters = ref(initFilters);
+  // Get the keys of the first object
+  const keysOfFirstCustomer = Object.keys(firstCustomer).map((key) => ({
+    field: key,
+    header: key.replace(/_/g, " ").replace(/(?:^|\s)\S/g, function (a) {
+      return a.toUpperCase();
+    }),
+  }));
+  console.log("columns", keysOfFirstCustomer);
 
-const uniqueData = ref({});
-
-const multiSelectLoading = ref(false);
-const handleShow = async (e) => {
-  multiSelectLoading.value = true;
-  if (!uniqueData.value[e]) {
-    uniqueData.value[e] = await customerStore.fetchUnique(e);
-  }
-  multiSelectLoading.value = false;
+  return keysOfFirstCustomer;
 };
 
 //export function
@@ -213,13 +219,33 @@ const dtRef = ref();
 const exportCSV = () => {
   dtRef.value.exportCSV();
 };
-
+const selectedCustomer = ref();
 const onRowSelect = () => {
-  console.log("selected");
+  console.log("selected", selectedColumns.value);
 };
+
 const onRowUnselect = () => {
   console.log("un selected");
 };
+
+const uniqueData = ref({});
+
+const filterUniqueValues = (col) => {
+  if (col && customerList.value && !uniqueData.value[col]) {
+    const result = _findUniqueValuesByKey(customerList.value, col);
+    console.log("filterUniqueValues", uniqueData.value);
+    uniqueData.value[col] = result;
+  }
+};
+
+function _findUniqueValuesByKey(data, key) {
+  const uniqueValues = new Set();
+
+  for (const item of data) {
+    uniqueValues.add(item[key]);
+  }
+  return Array.from(uniqueValues).map((value) => ({ name: value }));
+}
 // confirm dialog
 const confirm = useConfirm();
 const toast = useToast();

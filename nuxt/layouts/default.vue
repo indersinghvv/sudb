@@ -42,6 +42,11 @@
       <NuxtLink
         href="/customers"
         class="no-underline text-gray-800 w-full"
+        :class="[
+          $router.currentRoute.value.fullPath.split('/').includes('customers')
+            ? 'router-link-exact-active'
+            : '',
+        ]"
         exact-active-class
       >
         <div

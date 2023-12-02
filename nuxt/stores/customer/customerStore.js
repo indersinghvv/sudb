@@ -1,24 +1,28 @@
 const { getItems, getItemById } = useDirectusItems();
 
 export const useCustomerStore = defineStore("customer", () => {
-  const customerList = ref([]);
-  const companyRatingList = ref([]);
   const customerDetails = ref(null);
   const addNewCustomerDialog = ref(false);
 
+  //customer list
+
   const fetchCustomers = async () => {
     try {
-      customerList.value = await getItems({
+      const response = await getItems({
         collection: "customers",
         params: {
           fields: "*.*",
         },
       });
-      console.log("customer data", customerList.value);
+      return response;
     } catch (e) {
       console.error("customers", e);
     }
   };
+  //column list
+
+  //company rating list
+  const companyRatingList = ref([]);
   const fetchCompanyRatings = async () => {
     try {
       const filter = {
@@ -46,7 +50,7 @@ export const useCustomerStore = defineStore("customer", () => {
           fields: "*.*",
         },
       });
-      console.log("customer data", customerList.value);
+      console.log("fetchCustomerById", customerDetails.value);
     } catch (e) {
       console.error("customers", e);
     }
@@ -69,7 +73,6 @@ export const useCustomerStore = defineStore("customer", () => {
   };
 
   return {
-    customerList,
     customerDetails,
     companyRatingList,
     addNewCustomerDialog,

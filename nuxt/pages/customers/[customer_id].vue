@@ -53,7 +53,6 @@ watch(active, (newVal) => {
   });
 });
 
-// const customer_id = route.params.customer_id;
 const customerStore = useCustomerStore();
 
 const customerDetails = computed(() => customerStore.customerDetails);
